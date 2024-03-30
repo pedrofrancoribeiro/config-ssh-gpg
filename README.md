@@ -83,6 +83,84 @@ Depois de gerar um par de chaves de SSH, você pode adicionar a chave pública e
 >7. No campo "Chave", cole sua chave pública
 >8. Clique em **Adicionar chave SSH**
 
+# Adicionar uma nova chave GPG à sua conta GitHub
+
+>[!NOTE]
+>1. Verificar se existe uma chave GPG
+>   ```
+>   gpg --list-secret-key --keyid-form LONG
+>   ```
+>2.  Gerar chave GPG
+>    ```
+>    gpg --full-generate-key
+>    ```
+>    - Please select what kind of key you want: (1) RSA and RSA (default)
+>    - What keysize do you want? (3072) 4096
+>    - key is valid for? (0) 1y
+>    - Is this correct? (y/N) y
+>    - Change (N)ame, (C)omment, (E)mail, (O)kay/(Q)uit? o
+>3.  
+>      ```
+>      gpg --list-secret-key --keyid-form LONG
+>      ```
+>      - sec rsa4096/***A40B520717B714C3*** (**ID**)
+>4.
+>      ```
+>      gpg --armor --export <ID_DA_SUA_CHAVE_GPG>
+>      ```
+>5.  Copia a chave gerada
+>    ```
+> 
+>    -----BEGIN PGP PUBLIC KEY BLOCK-----
+>
+>    -----END PGP PUBLIC KEY BLOCK-----
+>
+>    ```
+>6.  Edite .bashrc
+>    ```
+>    vim ~/.bashrc
+>    ```
+>7.  Adicione a linha abaixo no fim do arquivo .bashrc
+>    ```
+>    export GPG_TTY=$(tty)
+>    ```
+>8.  Recarregue o ~/.bashrc
+>    ```
+>  	 source ~/.bashrc
+>    ```
+>9.    
+>    ```
+>    git config --global commit.gpgSign true
+>    ```
+>10.   
+>     ```
+>     git config --global tag.gpgSign true
+>     ```
+>11.  Quando commitar pela primeira vez, será solicitado a frase secreta configurada na criação da chave GPG
+>12.   
+>     ```
+>     git log --show-signature -1
+>     ```
+>13.   
+>      ```
+>      vim ~/.gnupg/gpg.conf
+>      ```
+>14. Adicionar a linha abaixo no arquivo
+>    ```
+>    use-agent
+>    ```
+>15.   
+>      ```
+>      gpgconf --launch gpg-agent
+>      ```
+>16.  Copie a chave GPG (PASSO 3 e 4) para usa área de transferência
+>17.  No canto superior direito de qualquer página, clique na foto do seu perfil e em **Settings**
+>18.  Na seção "Acesso" da barra lateral, clique em **Chaves SSH e GPG**
+>19.  Clique em **New GPG KEY**
+>20.  No campo "Title", adicione uma etiqueta descritiva para a nova chave. Por exemplo, se estiver usando um laptop pessoal, você poderá chamar essa GPG de "Laptop pessoal"
+>21.  No campo "Key", cole sua chave GPG
+>22.  Clique em **Add GPG Key**     
+
 ### Referências
 
 [Verificar se há chaves SSH](https://docs.github.com/pt/authentication/connecting-to-github-with-ssh/checking-for-existing-ssh-keys)
